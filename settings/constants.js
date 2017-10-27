@@ -5,7 +5,13 @@ const AppConstants = {
       USERNAME_MIN_LENGTH: 4,
       USERNAME_MAX_LENGTH: 20,
       PASSWORD_MIN_LENGTH: 6,
-      PASSWORD_MAX_LENGTH: 20
+      PASSWORD_MAX_LENGTH: 20,
+      EMAIL_MIN_LENGTH: 2,
+      EMAIL_MAX_LENGTH: 25,
+      AGE_MIN_LENGTH: 14,
+      AGE_MAX_LENGTH: 120,
+      NAME_MIN_LENGTH: 1,
+      NAME_MAX_LENGTH: 70
 }
 
 module.exports = AppConstants;
