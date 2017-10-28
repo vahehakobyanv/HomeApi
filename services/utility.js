@@ -6,6 +6,9 @@ const ErrorTypes = {
     USERNAME_INVALID_RANGE: 'USERNAME_INVALID_RANGE',
     PASSWORD_INVALID_RANGE: 'PASSWORD_INVALID_RANGE',
     ERROR_CREATION_USER: 'error creation user',
+    HAVE_USER: 'have user in this username',
+    INVALID_NAME_RANGE: 'invalid range for name',
+    INVALID_AGE_RANGE: 'invalid range for age',
     UNKNOWN_ERROR: 'unknown_error'
 }
 class Utility {
@@ -38,6 +41,15 @@ class Utility {
                break;
           case ErrorTypes.ERROR_CREATION_USER:
                error_object.message = 'error when you create new user';
+               break;
+          case ErrorTypes.HAVE_USER:
+               error_object.message = 'user already exists please enter other username';
+               break;
+          case ErrorTypes.INVALID_NAME_RANGE:
+               error_object.message = 'Your name range is invalid';
+               break;
+          case ErrorTypes.INVALID_AGE_RANGE:
+               error_object.message = 'Your age range is invalid';
                break;
 
         }

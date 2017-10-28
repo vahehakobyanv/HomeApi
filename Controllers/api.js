@@ -37,10 +37,16 @@ app.post('/users/', (req, res) => {
   {
       return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PASSWORD_INVALID_RANGE));
   }
+  if(name.length < AppConstants.NAME_MIN_LENGTH || name.length > AppConstants.NAME_MAX_LENGTH) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_NAME_RANGE));
+  }
+  if(age < AppConstants.AGE_MIN_LENGTH || age > AppConstants.AGE_MAX_LENGTH) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_AGE_RANGE));
+  }
   password = crypto.createHash('md5').update(password+username).digest('hex');
   app.dbs.users.findOne({username: username}, (err,data)=>{
     if(data) {
-        return res.send('have username');
+        return res.send('user already exists');
     }
     app.dbs.users.create({
         username: username,
