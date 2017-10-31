@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const AppConstants = require('./../settings/constants');
-const Utility = require('./../services/utility')
+const Utility = require('./../services/utility');
+const UserValidator = require('./../services/validators/user-validator');
 
 module.exports = function(app) {
  app.get('/users/', (req, res) => {
@@ -25,17 +26,15 @@ app.post('/users/', (req, res) => {
   let name = req.body.name;
   let email = req.body.email;
   let age = req.body.age;
-  if (!username || !password) {
-      return res.send(Utility.GenerateErrorMessage(
-        Utility.ErrorTypes.USERNAME_PASS_MISSING));
-  }
-  if(username.length < AppConstants.USERNAME_MIN_LENGTH || username.length > AppConstants.USERNAME_MAX_LENGTH)
+  let uv_response = UserValidator.validateUsername(username,true);
+  if(uv_response != Utility.ErrorTypes.SUCCESS)
   {
-      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.USERNAME_INVALID_RANGE,{more: username.length}));
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.uv_response))
   }
-  if(password.length < AppConstants.PASSWORD_MIN_LENGTH || password.length > AppConstants.PASSWORD_MAX_LENGTH)
+  let pas_response = UserValidator.validatePassword(password)
+  if(pas_response != Utility.ErrorTypes.SUCCESS)
   {
-      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PASSWORD_INVALID_RANGE));
+      return  res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.pas_response));
   }
   if(name.length < AppConstants.NAME_MIN_LENGTH || name.length > AppConstants.NAME_MAX_LENGTH) {
       return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_NAME_RANGE));
@@ -80,18 +79,16 @@ app.put('/users/:id', (req, res) => {
      name ? name = req.body.name : name = data.name;
      email ? email = req.body.email : email =data.email;
      age ? age = parseInt(req.body.age) : age = parseInt(data.age);
-    if (!username || !password) {
-        return res.send(Utility.GenerateErrorMessage(
-          Utility.ErrorTypes.USERNAME_PASS_MISSING));
-    }
-    if(username.length < AppConstants.USERNAME_MIN_LENGTH || username.length > AppConstants.USERNAME_MAX_LENGTH)
-    {
-        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.USERNAME_INVALID_RANGE,{more: username.length}));
-    }
-    if(password.length < AppConstants.PASSWORD_MIN_LENGTH || password.length > AppConstants.PASSWORD_MAX_LENGTH)
-    {
-        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PASSWORD_INVALID_RANGE));
-    }
+     let uv_response = UserValidator.validateUsername(username);
+     if(uv_response != Utility.ErrorTypes.SUCCESS)
+     {
+         return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.uv_response))
+     }
+     let pas_response = UserValidator.validatePassword(password)
+     if(pas_response != Utility.ErrorTypes.SUCCESS)
+     {
+         return  res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.pas_response));
+     }
     if(name.length < AppConstants.NAME_MIN_LENGTH || name.length > AppConstants.NAME_MAX_LENGTH) {
         return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_NAME_RANGE));
     }

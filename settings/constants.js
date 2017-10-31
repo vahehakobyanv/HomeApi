@@ -11,7 +11,9 @@ const AppConstants = {
       AGE_MIN_LENGTH: 14,
       AGE_MAX_LENGTH: 120,
       NAME_MIN_LENGTH: 1,
-      NAME_MAX_LENGTH: 70
+      NAME_MAX_LENGTH: 70,
+      NUMBER_REG_EXP: /^[+-]?(([0-9])+([.][0-9]*)?|[.][0-9]+)$/,
+      SYMBOL_REG_EXP: /^[!@#\$%\^\&*\)\(+=~._-]+$/
 }
 
 module.exports = AppConstants;

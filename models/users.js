@@ -1,8 +1,20 @@
 const mongoose = require ('mongoose');
+const keygen = require('keygenerator');
 const Schema = mongoose.Schema;
+
+function generateAPIKey() {
+    return (keygen._({ length: 2 }) + '-' + keygen._({ length: 6 })
+        + '-' + keygen.number()
+        + '-' + keygen._({ length: 6 })
+        + '-' + keygen._({ length: 8 })).replace(/&/g, '');
+}
 
 const AppConstants = require('./../settings/constants');
 let userSchema = Schema ({
+       key: {
+           type: String,
+           default: generateAPIKey
+         },
         username: {
             type: String,
             index: {unique: true},
